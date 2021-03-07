@@ -188,6 +188,28 @@ let {{
 }};
 
 def operands {{
+
+    'SPSPOP0AsIntDest': intRegX64('SPSPOP0'),
+    'SPSPOP0AsVecDest': vectorReg('SPSPOP0',dict()),
+    'SPSPOP0AsPredDest': vecPredReg('SPSPOP0'),
+
+    'SPSPOP0AsInt': intRegX64('SPSPOP0'),
+    'SPSPOP0AsVec': vectorReg('SPSPOP0',dict()),
+    'SPSPOP0AsPred': vecPredReg('SPSPOP0'),
+
+    'SPSPOP1AsInt': intRegX64('SPSPOP1'),
+    'SPSPOP1AsVec': vectorReg('SPSPOP1',dict()),
+    'SPSPOP1AsPred': vecPredReg('SPSPOP1'),
+
+    'SPSPOP2AsInt': intRegX64('SPSPOP2'),
+    'SPSPOP2AsVec': vectorReg('SPSPOP2',dict()),
+    'SPSPOP2AsPred': vecPredReg('SPSPOP2'),
+
+    'SPSPOP3AsInt': intRegX64('SPSPOP3'),
+    'SPSPOP3AsVec': vectorReg('SPSPOP3',dict()),
+    'SPSPOP3AsPred': vecPredReg('SPSPOP3'),
+
+
     #Abstracted integer reg operands
     'Dest': intReg('dest'),
     'Dest64': intReg64('dest'),

@@ -45,8 +45,12 @@ decode DEBUGSTEP default DebugStep::debugStep() {
                 0: decode AARCH64 {
                     0:
                     ##include "arm.isa"
-                    1:
-                    ##include "aarch64.isa"
+                    1: decode SPSPENCODING {
+                        1:
+                        ##include "spsp.isa"
+                        default:
+                        ##include "aarch64.isa"
+                    }
                 }
                 1:
                 ##include "thumb.isa"
@@ -54,3 +58,6 @@ decode DEBUGSTEP default DebugStep::debugStep() {
         }
     }
 }
+
+
+

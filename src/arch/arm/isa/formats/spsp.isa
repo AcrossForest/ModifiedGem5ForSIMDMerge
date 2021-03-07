@@ -1,0 +1,7 @@
+def format SpSp(code, *opt_flags) {{
+    iop = InstObjParams(name, Name, 'ArmStaticInst', code, opt_flags)
+    header_output = SpSpDeclare.subst(iop)
+    decoder_output = SpSpConstructor.subst(iop)
+    decode_block = SpSpDecode.subst(iop)
+    exec_output = SpSpExecute.subst(iop)
+}};

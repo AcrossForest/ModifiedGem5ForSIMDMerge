@@ -47,6 +47,8 @@ output header {{
 #include <iostream>
 #include <sstream>
 
+#include "arch/arm/insts/SpSpInst.hh"
+#include "arch/arm/insts/SpSpInterfaceV2/include/SpSpInst/Gem5Interface.hpp"
 #include "arch/arm/insts/branch.hh"
 #include "arch/arm/insts/branch64.hh"
 #include "arch/arm/insts/crypto.hh"

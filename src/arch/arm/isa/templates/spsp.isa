@@ -1,0 +1,68 @@
+
+def template SpSpDeclare {{
+        /**
+         * Static instruction class for "%(mnemonic)s".
+         */
+        class %(class_name)s : public %(base_class)s
+        {
+          public:
+                /// Constructor.
+                %(class_name)s(ExtMachInst machInst);
+                int imm;
+                Fault execute(ExecContext *,
+                              Trace::InstRecord *) const override;
+        };
+}};
+
+def template SpSpConstructor {{
+        %(class_name)s::%(class_name)s(ExtMachInst machInst)  :
+%(base_class)s("%(mnemonic)s", machInst, %(op_class)s),imm(SPSPOPIMM)
+        {
+                %(constructor)s;
+                /* Can't see why it is useful. In addition,
+                    We have used the bitfields <31:28> for other purpose.
+                    So it will conflict with condCode.
+                if (!(condCode == COND_AL || condCode == COND_UC)) {
+                    for (int x = 0; x < _numDestRegs; x++) {
+                        _srcRegIdx[_numSrcRegs++] = _destRegIdx[x];
+                    }
+                }
+                */
+        }
+}};
+
+def template SpSpConstructor64 {{
+        %(class_name)s::%(class_name)s(ExtMachInst machInst)  :
+             %(base_class)s("%(mnemonic)s", machInst, %(op_class)s)
+        {
+            %(constructor)s;
+        }
+}};
+
+
+def template SpSpExecute {{
+        Fault %(class_name)s::execute(
+            ExecContext *xc, Trace::InstRecord *traceData) const
+        {
+                Fault fault = NoFault;
+
+                %(op_decl)s;
+                %(op_rd)s;
+                %(code)s;
+
+                if (fault == NoFault)
+                {
+                    %(op_wb)s;
+                }
+                return fault;
+        }
+}};
+
+def template SpSpDecode {{
+        return new %(class_name)s(machInst);
+}};
+
+// Basic decode template, passing mnemonic in as string arg to constructor.
+def template SpSpDecodeWithMnemonic {{
+        return new %(class_name)s("%(mnemonic)s", machInst);
+}};

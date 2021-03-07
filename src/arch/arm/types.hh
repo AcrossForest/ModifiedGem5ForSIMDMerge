@@ -117,6 +117,15 @@ namespace ArmISA
         Bitfield<6>      opcode6;
         Bitfield<4>      opcode4;
 
+        Bitfield<4,0>   spspOp0;
+        Bitfield<9,5>   spspOp1;
+        Bitfield<14,10> spspOp3;
+        Bitfield<19,15> spspOp4;
+        Bitfield<23,20> spspImm;
+        Bitfield<28,25> spspEncoding;
+        Bitfield<31,29> spspOpch3bits;
+        Bitfield<24> spspOpcl1bit;
+
         Bitfield<31, 28> condCode;
         Bitfield<20>     sField;
         Bitfield<19, 16> rn;

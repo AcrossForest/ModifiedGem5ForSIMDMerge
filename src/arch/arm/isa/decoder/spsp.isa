@@ -1,0 +1,337 @@
+decode SPSPOPCL1BIT{
+    0: decode SPSPOPCH3BIT{
+        0: SpSp::svSpSpPack({{
+            using namespace SPSPINST;
+            // Obtain the vecLen and setup machine
+            unsigned vecLen = ArmStaticInst::getCurSveVecLen<uint32_t>(
+                xc->tcBase());
+            Machine mach(vecLen);
+
+            SPSPOP0AsInt = mach.pack(SPSPOP1AsInt,SPSPOP2AsInt);
+        }},'FloatMemReadOp');
+        1: SpSp::svSpSpIndexCompressInitM1({{
+            using namespace SPSPINST;
+            // Obtain the vecLen and setup machine
+            unsigned vecLen = ArmStaticInst::getCurSveVecLen<uint32_t>(
+                xc->tcBase());
+            Machine mach(vecLen);
+
+            // Exchange
+            std::vector<uint32_t> idxA(vecLen),idxB(vecLen);
+            uint64_t ab;
+            std::vector<uint32_t> comp;
+
+            // Copy to
+            for(int i=0; i<vecLen; ++i){
+                idxA[i] = SPSPOP1AsVec_uw[i];
+                idxB[i] = SPSPOP2AsVec_uw[i];
+            }
+            ab = SPSPOP3AsInt;
+
+            // exec
+            comp = mach.indexCompressionInitM1(idxA,idxB,ab);
+
+            // Copy back
+            for(int i=0; i<vecLen; ++i){
+                SPSPOP0AsVec_uw[i] = comp[i];
+            }
+        }},'SpSpIndexCompressInitOp');
+        2: SpSp::svSpSpGetLength({{
+            using namespace SPSPINST;
+            // Obtain the vecLen and setup machine
+            unsigned vecLen = ArmStaticInst::getCurSveVecLen<uint32_t>(
+                xc->tcBase());
+            Machine mach(vecLen);
+
+            // Exchange
+            std::vector<uint32_t> packedMatchResult(vecLen);
+
+            // Copy to
+            for(int i=0; i<vecLen; ++i){
+                packedMatchResult[i] = SPSPOP1AsVec_uw[i];
+            }
+
+            SPSPOP0AsInt = mach.getLength(
+                packedMatchResult,
+                MatchResultLength(imm));
+
+        }},'SpSpGetLengthOp');
+        3: SpSp::svSpSpIndexCompression({{
+            using namespace SPSPINST;
+            // Obtain the vecLen and setup machine
+            unsigned vecLen = ArmStaticInst::getCurSveVecLen<uint32_t>(
+                xc->tcBase());
+            Machine mach(vecLen);
+
+             // Exchange
+std::vector<uint32_t> oldPackState(vecLen),idxA(vecLen),idxB(vecLen);
+            for(int i=0; i<vecLen; ++i){
+                oldPackState[i] = SPSPOP0AsVec_uw[i];
+                idxA[i] = SPSPOP1AsVec_uw[i];
+                idxB[i] = SPSPOP2AsVec_uw[i];
+            }
+
+            // exec
+            auto newPackState = mach.indexCompression(
+                oldPackState,
+                idxA,
+                idxB);
+
+            // copy back
+            for(int i=0; i<vecLen; ++i){
+                SPSPOP0AsVecDest_uw[i] = newPackState[i];
+            }
+
+        }},'SpSpIndexCompressionOp');
+        4: SpSp::svSpSpIndexMatchM1({{
+
+            // Deprecate
+        }});
+        5: SpSp::svSpSpIndexMatchM2({{
+            using namespace SPSPINST;
+            // Obtain the vecLen and setup machine
+            unsigned vecLen = ArmStaticInst::getCurSveVecLen<uint32_t>(
+                xc->tcBase());
+            Machine mach(vecLen);
+
+            std::vector<uint32_t> oldPackState(vecLen);
+            uint64_t x0,x1;
+            for(int i=0; i<vecLen; ++i){
+                oldPackState[i] = SPSPOP0AsVec_uw[i];
+            }
+            x0 = SPSPOP1AsInt;
+            x1 = SPSPOP2AsInt;
+            auto matchResult = mach.indexMatchM2(
+                oldPackState,
+                EndType(x0),
+                EndType(x1),
+                IndexMatchMethod(imm));
+
+            for(int i=0;i<vecLen;++i){
+                SPSPOP0AsVecDest_uw[i] = matchResult[i];
+            }
+
+        }},'SpSpIndexMatchOp');
+        6: SpSp::svSpSpCustPerm({{
+            using namespace SPSPINST;
+             // Obtain the vecLen and setup machine
+            unsigned vecLen = ArmStaticInst::getCurSveVecLen<uint32_t>(
+                xc->tcBase());
+            Machine mach(vecLen);
+
+            std::vector<uint32_t> packedMatchResult(vecLen),source(vecLen);
+            for(int i=0; i<vecLen; ++i){
+                packedMatchResult[i] = SPSPOP1AsVec_uw[i];
+                source[i] = SPSPOP2AsVec_uw[i];
+            }
+
+            auto result = mach.customPermute(
+                packedMatchResult,
+                source,
+                MatchResultPart(imm));
+
+            for(int i=0; i<vecLen; ++i){
+                SPSPOP0AsVec_uw[i] = result[i];
+            }
+
+        }},'SpSpCustPermOp');
+        7: SpSp::svSpSpGetPred({{
+            using namespace SPSPINST;
+             // Obtain the vecLen and setup machine
+            unsigned vecLen = ArmStaticInst::getCurSveVecLen<uint32_t>(
+                xc->tcBase());
+            Machine mach(vecLen);
+
+            std::vector<uint32_t> packedMatchResult(vecLen);
+            for(int i=0; i<vecLen; ++i){
+                packedMatchResult[i] = SPSPOP1AsVec_uw[i];
+            }
+
+            auto result = mach.getPredicate(
+                packedMatchResult,
+                MatchPredResult(imm));
+
+            for(int i=0; i<vecLen; ++i){
+                SPSPOP0AsPred_uw[i] = result[i];
+            }
+
+        }},'SpSpGetPredOp');
+    }
+    1:  decode SPSPOPCH3BIT{
+        0: SpSp::svSpSpInitBigCmp({{
+            using namespace SpSpGem5;
+            // Obtain the vecLen and setup machine
+            unsigned vecLen = ArmStaticInst::getCurSveVecLen<uint32_t>(
+                xc->tcBase());
+            WrapperCPU cpu(vecLen);
+
+            // Exchange
+            uint64_t limit = SPSPOP1AsInt;
+            VecBool predLeft,predRight;
+            predLeft.assign(vecLen,0);
+            predRight.assign(vecLen,0);
+            for(int i=0; i<vecLen; ++i){
+                predLeft[i] = SPSPOP2AsPred_uw[i];
+                predRight[i] = SPSPOP3AsPred_uw[i];
+            }
+            
+            VBigCmp bigCmp = cpu.InitBigCmp(limit,predLeft,predRight);
+
+            for(int i=0; i<vecLen; ++i){
+                SPSPOP0AsVec_uw[i] = bigCmp[i];
+            }
+        }},'SpSpInitBigCmpOp');
+        1: SpSp::svSpSpNextBigCmpFromMatRes({{
+            using namespace SpSpGem5;
+            // Obtain the vecLen and setup machine
+            unsigned vecLen = ArmStaticInst::getCurSveVecLen<uint32_t>(
+                xc->tcBase());
+            WrapperCPU cpu(vecLen);
+
+            // Exchange
+            uint64_t limit = SPSPOP1AsInt;
+            VMatRes matRes;
+            matRes.assign(vecLen,0);
+            for(int i=0; i<vecLen; ++i){
+                matRes[i] = SPSPOP2AsVec_uw[i];
+            }
+            
+            VBigCmp bigCmp = cpu.NextBigCmpFromMatRes(limit,matRes);
+
+            for(int i=0; i<vecLen; ++i){
+                SPSPOP0AsVec_uw[i] = bigCmp[i];
+            }
+        }},'SpSpNextBigCmpFromMatResOp');
+        2: SpSp::svSpSpKeyCombine({{
+            using namespace SpSpGem5;
+            // Obtain the vecLen and setup machine
+            unsigned vecLen = ArmStaticInst::getCurSveVecLen<uint32_t>(
+                xc->tcBase());
+            WrapperCPU cpu(vecLen);
+
+            VBigCmp oldBigCmp;
+            VecIdx idxA,idxB;
+            oldBigCmp.resize(vecLen);
+            idxA.resize(vecLen);
+            idxB.resize(vecLen);
+            for(int i=0; i<vecLen; ++i){
+                oldBigCmp[i] = SPSPOP1AsVec_uw[i];
+                idxA[i] = SPSPOP2AsVec_uw[i];
+                idxB[i] = SPSPOP3AsVec_uw[i];
+            }
+            
+            VBigCmp bigCmp = cpu.KeyCombine(oldBigCmp,idxA,idxB,imm);
+
+            for(int i=0; i<vecLen; ++i){
+                SPSPOP0AsVec_uw[i] = bigCmp[i];
+            }
+        }},'SpSpKeyCombineOp');
+
+       3: SpSp::svSpSpMatch({{
+            using namespace SpSpGem5;
+            // Obtain the vecLen and setup machine
+            unsigned vecLen = ArmStaticInst::getCurSveVecLen<uint32_t>(
+                xc->tcBase());
+            WrapperCPU cpu(vecLen);
+
+            VBigCmp bigCmp;
+            bigCmp.resize(vecLen);
+            for(int i=0; i<vecLen; ++i){
+                bigCmp[i] = SPSPOP1AsVec_uw[i];
+            }
+            uint64_t policyA,policyB;
+            policyA = SPSPOP2AsInt;
+            policyB = SPSPOP3AsInt;
+            
+            VMatRes matRes = cpu.Match(bigCmp,policyA,policyB);
+
+            for(int i=0; i<vecLen; ++i){
+                SPSPOP0AsVec_uw[i] = matRes[i];
+            }
+        }},'SpSpMatchOp');
+
+       4: SpSp::svSpSpGetLimit({{
+            using namespace SpSpGem5;
+            // Obtain the vecLen and setup machine
+            unsigned vecLen = ArmStaticInst::getCurSveVecLen<uint32_t>(
+                xc->tcBase());
+            WrapperCPU cpu(vecLen);
+
+            VBigCmp bigCmp;
+            bigCmp.resize(vecLen);
+            for(int i=0; i<vecLen; ++i){
+                bigCmp[i] = SPSPOP1AsVec_uw[i];
+            }
+            uint64_t simPolicyMask,op2;
+            simPolicyMask = SPSPOP2AsInt;
+            op2 = SPSPOP3AsInt;
+            
+            uint64_t limit = cpu.GetLimit(bigCmp,simPolicyMask,op2);
+
+            SPSPOP0AsInt = limit
+        }},'SpSpGetLimitOp');
+
+        5: SpSp::svSpSpBFPermute({{
+            using namespace SpSpGem5;
+            // Obtain the vecLen and setup machine
+            unsigned vecLen = ArmStaticInst::getCurSveVecLen<uint32_t>(
+                xc->tcBase());
+            WrapperCPU cpu(vecLen);
+
+            VBigCmp bigCmp;
+            VecIdx srcLeft,srcRight;
+            bigCmp.resize(vecLen);
+            srcLeft.resize(vecLen);
+            srcRight.resize(vecLen);
+            for(int i=0; i<vecLen; ++i){
+                bigCmp[i] = SPSPOP1AsVec_uw[i];
+                srcLeft[i] = SPSPOP2AsVec_uw[i];
+                srcRight[i] = SPSPOP3AsVec_uw[i];
+            }
+            
+            VecIdx out = cpu.BFPermute(bigCmp,srcLeft,srcRight,imm);
+
+            for(int i=0; i<vecLen; ++i){
+                SPSPOP0AsVec_uw[i] = out[i];
+            }
+        }},'SpSpBFPermuteOp');
+        6: SpSp::svSpSpSEPermute({{
+            using namespace SpSpGem5;
+            // Obtain the vecLen and setup machine
+            unsigned vecLen = ArmStaticInst::getCurSveVecLen<uint32_t>(
+                xc->tcBase());
+            WrapperCPU cpu(vecLen);
+
+            VMatRes matRes;
+            VecIdx source;
+            matRes.resize(vecLen);
+            source.resize(vecLen);
+            uint64_t defaultLastVal;
+            for(int i=0; i<vecLen; ++i){
+                matRes[i] = SPSPOP1AsVec_uw[i];
+                source[i] = SPSPOP2AsVec_uw[i];
+            }
+            defaultLastVal = SPSPOP3AsInt;
+            
+            VecIdx out = cpu.SEPermute(matRes,source,defaultLastVal,imm);
+
+            for(int i=0; i<vecLen; ++i){
+                SPSPOP0AsVec_uw[i] = out[i];
+            }
+        }},'SpSpSEPermuteOp');
+        
+        7: SpSp::svSpSpTestAdd({{
+            int vecLen = ArmStaticInst::getCurSveVecLen<uint32_t>(
+                    xc->tcBase());
+            printf("Executing svSpSpTestAdd\n");
+            for(int i=0;i<vecLen;++i){
+                int a = SPSPOP1AsVec_uw[i] + SPSPOP2AsVec_uw[i];
+                SPSPOP0AsVec_uw[i] = a;
+                printf("i = %d, %d = %d + %d",
+                    i,a,SPSPOP1AsVec_uw[i], SPSPOP2AsVec_uw[i]);
+            }
+
+        }});
+    }
+
+}

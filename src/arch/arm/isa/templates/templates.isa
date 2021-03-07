@@ -38,6 +38,9 @@
 //Basic instruction templates
 ##include "basic.isa"
 
+// SpSp operation
+##include "spsp.isa"
+
 //Semihosting instruction templates
 ##include "semihost.isa"
 

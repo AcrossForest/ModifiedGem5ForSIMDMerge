@@ -122,7 +122,7 @@ class MinorFUPool(SimObject):
     funcUnits = VectorParam.MinorFU("functional units")
 
 class MinorDefaultIntFU(MinorFU):
-    opClasses = minorMakeOpClassSet(['IntAlu'])
+    opClasses = minorMakeOpClassSet(['IntAlu',"SpSpPack"])
     timings = [MinorFUTiming(description="Int",
         srcRegsRelativeLats=[2])]
     opLat = 3
@@ -150,7 +150,24 @@ class MinorDefaultFloatSimdFU(MinorFU):
         'SimdReduceCmp', 'SimdFloatReduceAdd', 'SimdFloatReduceCmp',
         'SimdAes', 'SimdAesMix',
         'SimdSha1Hash', 'SimdSha1Hash2', 'SimdSha256Hash',
-        'SimdSha256Hash2', 'SimdShaSigma2', 'SimdShaSigma3'])
+        'SimdSha256Hash2', 'SimdShaSigma2', 'SimdShaSigma3',
+            'SpSpIndexCompressInit',
+            'SpSpGetLength',
+            'SpSpIndexCompression',
+            'SpSpIndexMatch',
+            'SpSpCustPerm',
+            'SpSpGetPred',
+            'SpSpSingleSideSortInit',
+            'SpSpSingleSideSort',
+
+            'SpSpInitBigCmp',
+            'SpSpNextBigCmpFromMatRes',
+            'SpSpKeyCombine',
+            'SpSpMatch',
+            'SpSpGetLimit',
+            'SpSpBFPermute',
+            'SpSpSEPermute',
+        ])
 
     timings = [MinorFUTiming(description='FloatSimd',
         srcRegsRelativeLats=[2])]

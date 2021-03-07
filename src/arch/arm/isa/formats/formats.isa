@@ -45,6 +45,9 @@
 //Include support for decoding AArch64 instructions
 ##include "aarch64.isa"
 
+// Include support for SpSp operations
+##include "spsp.isa"
+
 //Include support for decoding AArch64 NEON instructions
 ##include "neon64.isa"
 

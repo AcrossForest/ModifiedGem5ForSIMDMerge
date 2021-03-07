@@ -103,5 +103,23 @@ static const OpClass FloatMemWriteOp = Enums::FloatMemWrite;
 static const OpClass IprAccessOp = Enums::IprAccess;
 static const OpClass InstPrefetchOp = Enums::InstPrefetch;
 static const OpClass Num_OpClasses = Enums::Num_OpClass;
+static const OpClass SpSpPackOp  = Enums::SpSpPack;
+static const OpClass SpSpIndexCompressInitOp = Enums::SpSpIndexCompressInit;
+static const OpClass SpSpGetLengthOp = Enums::SpSpGetLength;
+static const OpClass SpSpIndexCompressionOp = Enums::SpSpIndexCompression;
+static const OpClass SpSpIndexMatchOp = Enums::SpSpIndexMatch;
+static const OpClass SpSpCustPermOp = Enums::SpSpCustPerm;
+static const OpClass SpSpGetPredOp = Enums::SpSpGetPred;
+static const OpClass SpSpSingleSideSortInitOp = Enums::SpSpSingleSideSortInit;
+static const OpClass SpSpSingleSideSortOp = Enums::SpSpSingleSideSort;
+
+
+static const OpClass SpSpInitBigCmpOp = Enums::SpSpInitBigCmp;
+static const OpClass SpSpNextBigCmpFromMatResOp = Enums::SpSpNextBigCmpFromMatRes;
+static const OpClass SpSpKeyCombineOp = Enums::SpSpKeyCombine;
+static const OpClass SpSpMatchOp = Enums::SpSpMatch;
+static const OpClass SpSpGetLimitOp = Enums::SpSpGetLimit;
+static const OpClass SpSpBFPermuteOp = Enums::SpSpBFPermute;
+static const OpClass SpSpSEPermuteOp = Enums::SpSpSEPermute;
 
 #endif // __CPU__OP_CLASS_HH__

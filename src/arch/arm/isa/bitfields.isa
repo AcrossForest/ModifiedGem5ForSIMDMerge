@@ -70,6 +70,15 @@ def bitfield OPCODE_7      opcode7;
 def bitfield OPCODE_6      opcode6;
 def bitfield OPCODE_4      opcode4;
 
+def bitfield SPSPOP0     spspOp0;
+def bitfield SPSPOP1     spspOp1;
+def bitfield SPSPOP2     spspOp3;
+def bitfield SPSPOP3     spspOp4;
+def bitfield SPSPOPIMM     spspImm;
+def bitfield SPSPENCODING     spspEncoding;
+def bitfield SPSPOPCH3BIT     spspOpch3bits;
+def bitfield SPSPOPCL1BIT     spspOpcl1bit;
+
 def bitfield IS_MISC       isMisc;
 def bitfield SEVEN_AND_FOUR sevenAndFour;
 

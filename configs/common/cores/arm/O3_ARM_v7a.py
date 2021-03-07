@@ -28,10 +28,13 @@ from __future__ import print_function
 from __future__ import absolute_import
 
 from m5.objects import *
-
+import math
 # Simple ALU Instructions have a latency of 1
 class O3_ARM_v7a_Simple_Int(FUDesc):
-    opList = [ OpDesc(opClass='IntAlu', opLat=1) ]
+    opList = [
+        OpDesc(opClass='IntAlu', opLat=1),
+        OpDesc(opClass='SpSpPack', opLat=1),
+        ]
     count = 2
 
 # Complex ALU instructions have a variable latencies
@@ -41,6 +44,8 @@ class O3_ARM_v7a_Complex_Int(FUDesc):
                OpDesc(opClass='IprAccess', opLat=3, pipelined=True) ]
     count = 1
 
+
+from common.SpSpLatency import *
 
 # Floating point and SIMD instructions
 class O3_ARM_v7a_FP(FUDesc):
@@ -71,7 +76,8 @@ class O3_ARM_v7a_FP(FUDesc):
                OpDesc(opClass='FloatSqrt', opLat=33, pipelined=False),
                OpDesc(opClass='FloatMult', opLat=4),
                OpDesc(opClass='FloatMultAcc', opLat=5),
-               OpDesc(opClass='FloatMisc', opLat=3) ]
+               OpDesc(opClass='FloatMisc', opLat=3),
+                ] + spspLatencyPart(SpSpLatencySetting())
     count = 2
 
 
@@ -161,9 +167,12 @@ class O3_ARM_v7a_ICache(Cache):
 
 # Data Cache
 class O3_ARM_v7a_DCache(Cache):
-    tag_latency = 2
-    data_latency = 2
-    response_latency = 2
+    # tag_latency = 2
+    # data_latency = 2
+    # response_latency = 2
+    tag_latency = 4
+    data_latency = 4
+    response_latency = 4
     mshrs = 6
     tgts_per_mshr = 8
     size = '32kB'

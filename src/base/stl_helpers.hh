@@ -31,6 +31,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <concepts>
 
 namespace m5 {
 namespace stl_helpers {
@@ -73,6 +74,7 @@ class ContainerPrint
  * @ingroup api_base_utils
  */
 template <template <typename T, typename A> class C, typename T, typename A>
+    requires (!std::same_as<T,char>)
 std::ostream &
 operator<<(std::ostream& out, const C<T,A> &vec)
 {

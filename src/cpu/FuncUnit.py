@@ -55,7 +55,25 @@ class OpClass(Enum):
             'SimdShaSigma3',
             'SimdPredAlu',
             'MemRead', 'MemWrite', 'FloatMemRead', 'FloatMemWrite',
-            'IprAccess', 'InstPrefetch']
+            'IprAccess', 'InstPrefetch',
+            'SpSpPack',
+            'SpSpIndexCompressInit',
+            'SpSpGetLength',
+            'SpSpIndexCompression',
+            'SpSpIndexMatch',
+            'SpSpCustPerm',
+            'SpSpGetPred',
+            'SpSpSingleSideSortInit',
+            'SpSpSingleSideSort',
+
+            'SpSpInitBigCmp',
+            'SpSpNextBigCmpFromMatRes',
+            'SpSpKeyCombine',
+            'SpSpMatch',
+            'SpSpGetLimit',
+            'SpSpBFPermute',
+            'SpSpSEPermute',
+            ]
 
 class OpDesc(SimObject):
     type = 'OpDesc'

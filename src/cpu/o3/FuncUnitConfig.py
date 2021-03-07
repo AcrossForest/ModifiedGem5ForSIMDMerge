@@ -43,7 +43,10 @@ from m5.params import *
 from m5.objects.FuncUnit import *
 
 class IntALU(FUDesc):
-    opList = [ OpDesc(opClass='IntAlu') ]
+    opList = [
+        OpDesc(opClass='IntAlu'),
+        OpDesc(opClass='SpSpPack'),
+     ]
     count = 6
 
 class IntMultDiv(FUDesc):
@@ -99,7 +102,24 @@ class SIMD_Unit(FUDesc):
                OpDesc(opClass='SimdReduceAlu'),
                OpDesc(opClass='SimdReduceCmp'),
                OpDesc(opClass='SimdFloatReduceAdd'),
-               OpDesc(opClass='SimdFloatReduceCmp') ]
+               OpDesc(opClass='SimdFloatReduceCmp'),
+                OpDesc(opClass='SpSpIndexCompressInit'),
+                OpDesc(opClass='SpSpGetLength'),
+                OpDesc(opClass='SpSpIndexCompression'),
+                OpDesc(opClass='SpSpIndexMatch'),
+                OpDesc(opClass='SpSpCustPerm'),
+                OpDesc(opClass='SpSpGetPred'),
+                OpDesc(opClass='SpSpSingleSideSortInit'),
+                OpDesc(opClass='SpSpSingleSideSort'),
+
+                    OpDesc(opClass='SpSpInitBigCmp'),
+                    OpDesc(opClass='SpSpNextBigCmpFromMatRes'),
+                    OpDesc(opClass='SpSpKeyCombine'),
+                    OpDesc(opClass='SpSpMatch'),
+                    OpDesc(opClass='SpSpGetLimit'),
+                    OpDesc(opClass='SpSpBFPermute'),
+                    OpDesc(opClass='SpSpSEPermute'),
+            ]
     count = 4
 
 class PredALU(FUDesc):
