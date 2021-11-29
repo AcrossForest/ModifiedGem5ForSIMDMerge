@@ -1,3 +1,0 @@
-[submodule "src/arch/arm/insts/SpSpInterfaceV2"]
-	path = src/arch/arm/insts/SpSpInterfaceV2
-	url = git@gitee.com:stoic-ren/SpSpInterfaceV2.git
