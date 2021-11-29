@@ -79,9 +79,9 @@ def spspLatencyPart(spspLatObj):
         OpDesc(opClass='SpSpNextBigCmpFromMatRes',
                        opLat=LatCmp32Bit * logV2),
         # Note: The true latency is LatCmp32Bit * logV2, however,
-        # it is 'specially pipelined'
+        # it is 'pipelined by fragments'
         # and it will always follows either SpSpInitBigCmp or
-        # SpSpNextBigCmpFromMatRes, so we should set its latency to be 1.
+        # SpSpNextBigCmpFromMatRes, so we should set its latency to be 1 due to the perfect pipeline. The extra latency is moved to SpSpInitBigCmp (which is set to LatCmp32Bit * logV2 while in practice 1).  So the total latency is the same as real.
         OpDesc(opClass='SpSpKeyCombine',
                        opLat=1),
         OpDesc(opClass='SpSpMatch',
